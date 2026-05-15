@@ -22,10 +22,11 @@ export const socialUrl = (links = [], platform) => {
 };
 
 export const backendOrigin = () => {
-  const apiBase = import.meta.env.VITE_API_URL || '/api';
-  if (/^https?:\/\//i.test(apiBase)) return new URL(apiBase).origin;
-  if (window.location.port === '5173') return 'http://localhost:5000';
-  return window.location.origin;
+  const apiBase = import.meta.env.VITE_API_URL;
+
+  if (!apiBase) return '';
+
+  return apiBase.replace('/api', '');
 };
 
 export const resolveAssetUrl = (url) => {
