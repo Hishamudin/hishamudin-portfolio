@@ -13,7 +13,7 @@ function SkillBar({ name, level, icon, index, inView }) {
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="text-base">{icon}</span>
-          <span className="text-slate-300 text-sm font-medium font-body">{name}</span>
+          <span className="text-slate-300 text-sm font-medium font-body break-words">{name}</span>
         </div>
         <span className="text-accent-400 text-xs font-mono font-semibold">{level}%</span>
       </div>
@@ -37,9 +37,9 @@ export default function Skills({ cms }) {
   return (
     <section id="skills" className="py-24 bg-dark-900 relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-15" />
-      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-accent-500/5 blur-3xl" />
+      <div className="absolute top-0 right-0 w-56 h-56 sm:w-96 sm:h-96 rounded-full bg-accent-500/5 blur-3xl" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -68,7 +68,7 @@ export default function Skills({ cms }) {
             >
               <h3 className="text-white font-display font-semibold mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-accent-500" />
-                {category.category}
+                <span className="break-words">{category.category}</span>
               </h3>
               <div className="space-y-5">
                 {category.items.map((skill, i) => (
@@ -99,7 +99,7 @@ export default function Skills({ cms }) {
                   className="glass px-4 py-2.5 rounded-xl border border-white/10 hover:border-accent-500/30 cursor-default flex items-center gap-2 transition-all duration-200 group"
                 >
                   <span className="text-base" style={{ color: tech.color }}>{tech.symbol || tech.name?.slice(0, 2)}</span>
-                  <span className="text-slate-300 text-sm font-body group-hover:text-white transition-colors">{tech.name}</span>
+                  <span className="text-slate-300 text-sm font-body group-hover:text-white transition-colors break-words">{tech.name}</span>
                 </motion.div>
               ))}
             </div>

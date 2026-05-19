@@ -51,9 +51,9 @@ export default function Contact({ cms }) {
   return (
     <section id="contact" className="py-24 bg-dark-900 relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-15" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent-500/5 blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-[500px] sm:h-[500px] rounded-full bg-accent-500/5 blur-3xl" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,16 +91,16 @@ export default function Contact({ cms }) {
                 { icon: Mail, label: 'Email', value: contact.email, href: `mailto:${contact.email}` },
                 { icon: MapPin, label: 'Location', value: contact.location, href: null },
               ].map(({ icon: Icon, label, value, href }) => (
-                <div key={label} className="flex items-center gap-4 group">
+                <div key={label} className="flex items-center gap-4 group min-w-0">
                   <div className="p-3 glass rounded-xl text-accent-400 border border-accent-500/20 group-hover:border-accent-500/40 transition-colors">
                     <Icon size={18} />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-slate-500 text-xs font-mono">{label}</p>
                     {href ? (
-                      <a href={href} className="text-slate-300 hover:text-accent-400 transition-colors text-sm font-body">{value}</a>
+                      <a href={href} className="text-slate-300 hover:text-accent-400 transition-colors text-sm font-body break-all">{value}</a>
                     ) : (
-                      <p className="text-slate-300 text-sm font-body">{value}</p>
+                      <p className="text-slate-300 text-sm font-body break-words">{value}</p>
                     )}
                   </div>
                 </div>
@@ -137,7 +137,7 @@ export default function Contact({ cms }) {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass rounded-2xl p-12 text-center gradient-border"
+                className="glass rounded-2xl p-6 sm:p-12 text-center gradient-border"
               >
                 <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
                 <h3 className="text-white font-display font-semibold text-xl mb-2">Message Sent!</h3>
@@ -147,7 +147,7 @@ export default function Contact({ cms }) {
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="glass rounded-2xl p-8 gradient-border space-y-5">
+              <form onSubmit={handleSubmit} className="glass rounded-2xl p-5 sm:p-8 gradient-border space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
                   {/* Name */}
                   <div>

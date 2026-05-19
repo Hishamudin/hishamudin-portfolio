@@ -92,10 +92,10 @@ export default function Portfolio() {
 
       <CursorGlow />
 
-      <div className="relative min-h-screen bg-dark-950">
+      <div className="relative min-h-screen bg-dark-950 overflow-x-hidden">
         <Navbar cms={cms} />
 
-        <main>
+        <main className="overflow-x-hidden">
           <Hero cms={cms} />
           <About cms={cms} />
           <Projects projects={cms?.projects || []} />

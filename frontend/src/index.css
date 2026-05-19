@@ -3,16 +3,42 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   html { @apply antialiased; }
+
+  body {
+    min-width: 320px;
+  }
+
+  section,
+  main,
+  footer,
+  nav {
+    max-width: 100vw;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
 }
 
 @layer components {
   .section-heading {
-    @apply text-4xl md:text-5xl font-bold font-display tracking-tight;
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight break-words;
   }
   
   .section-subheading {
-    @apply text-lg text-slate-400 font-body mt-3 max-w-2xl;
+    @apply text-base sm:text-lg text-slate-400 font-body mt-3 max-w-2xl break-words;
   }
   
   .glass {
@@ -24,13 +50,13 @@
   }
   
   .btn-primary {
-    @apply px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-lg font-medium
+    @apply px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-lg font-medium text-center
            transition-all duration-200 hover:shadow-glow hover:-translate-y-0.5 active:translate-y-0;
   }
   
   .btn-outline {
     @apply px-6 py-3 border border-accent-500/50 text-accent-400 hover:bg-accent-500/10
-           rounded-lg font-medium transition-all duration-200 hover:-translate-y-0.5;
+           rounded-lg font-medium text-center transition-all duration-200 hover:-translate-y-0.5;
   }
 
   .card-hover {
@@ -98,7 +124,7 @@
 
 /* Tech tag */
 .tech-tag {
-  @apply px-2.5 py-1 text-xs font-mono rounded-md bg-accent-500/10 text-accent-400 
+  @apply px-2.5 py-1 text-xs font-mono rounded-md bg-accent-500/10 text-accent-400 break-words
          border border-accent-500/20 font-medium tracking-wide;
 }
 

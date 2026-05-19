@@ -49,14 +49,14 @@ function ProjectImage({ project, large = false }) {
 
 function ProjectLinks({ project, compact = false }) {
   return (
-    <div className={`flex flex-wrap gap-2 ${compact ? '' : 'pt-4 border-t border-white/5'}`}>
+    <div className={`flex flex-col min-[420px]:flex-row flex-wrap gap-2 ${compact ? '' : 'pt-4 border-t border-white/5'}`}>
       {project.liveDemoUrl && (
         <a
           href={project.liveDemoUrl}
           target="_blank"
           rel="noopener noreferrer"
           onClick={e => e.stopPropagation()}
-          className="inline-flex items-center gap-2 rounded-lg bg-accent-500 px-3 py-2 text-xs font-medium text-white hover:bg-accent-600 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent-500 px-3 py-2 text-xs font-medium text-white hover:bg-accent-600 transition-colors"
         >
           <ExternalLink size={14} />
           Live Demo
@@ -68,7 +68,7 @@ function ProjectLinks({ project, compact = false }) {
           target="_blank"
           rel="noopener noreferrer"
           onClick={e => e.stopPropagation()}
-          className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-medium text-slate-300 hover:border-accent-500/50 hover:text-accent-300 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-medium text-slate-300 hover:border-accent-500/50 hover:text-accent-300 transition-colors"
         >
           <Github size={14} />
           GitHub Repository
@@ -98,11 +98,11 @@ function ProjectCard({ project, index, onOpen }) {
       <ProjectImage project={project} />
 
       <div className="p-5 sm:p-6">
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <h3 className="font-display font-semibold text-white text-xl leading-snug group-hover:text-accent-100 transition-colors">
+        <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-start justify-between gap-3 mb-3">
+          <h3 className="font-display font-semibold text-white text-xl leading-snug group-hover:text-accent-100 transition-colors break-words">
             {project.title}
           </h3>
-          <span className={`text-xs px-2 py-1 rounded-full border font-mono capitalize shrink-0 ${CATEGORY_COLORS[project.category] || CATEGORY_COLORS.other}`}>
+          <span className={`w-fit text-xs px-2 py-1 rounded-full border font-mono capitalize shrink-0 ${CATEGORY_COLORS[project.category] || CATEGORY_COLORS.other}`}>
             {project.category || 'other'}
           </span>
         </div>
@@ -120,12 +120,12 @@ function ProjectCard({ project, index, onOpen }) {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-center justify-between gap-3">
           <ProjectLinks project={project} compact />
           <button
             type="button"
             onClick={e => { e.stopPropagation(); onOpen(project); }}
-            className="ml-auto inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-accent-300 transition-colors"
+            className="min-[420px]:ml-auto inline-flex items-center justify-center gap-1.5 text-xs font-mono text-slate-500 hover:text-accent-300 transition-colors"
           >
             <Maximize2 size={13} />
             Details
@@ -140,7 +140,7 @@ function ProjectModal({ project, onClose }) {
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-4 overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -152,7 +152,7 @@ function ProjectModal({ project, onClose }) {
         initial={{ opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 16 }}
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-dark-800 border border-white/10 shadow-2xl"
+        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-2xl bg-dark-800 border border-white/10 shadow-2xl"
       >
         <button
           type="button"
@@ -168,7 +168,7 @@ function ProjectModal({ project, onClose }) {
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
             <div>
-              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white">{project.title}</h3>
+              <h3 className="text-2xl sm:text-3xl font-display font-bold text-white break-words">{project.title}</h3>
               <p className="text-slate-500 text-xs font-mono mt-2 capitalize">{project.category} · {project.status}</p>
             </div>
             {project.featured && (
@@ -178,7 +178,7 @@ function ProjectModal({ project, onClose }) {
             )}
           </div>
 
-          <p className="text-slate-300 leading-relaxed font-body whitespace-pre-wrap mb-6">
+          <p className="text-slate-300 leading-relaxed font-body whitespace-pre-wrap break-words mb-6">
             {project.detailedDescription || project.description}
           </p>
 
@@ -210,7 +210,7 @@ export default function Projects({ projects = [] }) {
     <section id="projects" className="py-24 bg-dark-950 relative">
       <div className="absolute inset-0 grid-bg opacity-15" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -218,7 +218,7 @@ export default function Projects({ projects = [] }) {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-accent-500/20 text-accent-400 text-xs font-mono mb-4">
-            projects.filter(awesome)
+            Featured Projects
           </div>
           <h2 className="section-heading text-white mb-4">
             Things I've <span className="text-gradient">Built</span>

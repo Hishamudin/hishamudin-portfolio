@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import { cacheBustAsset, normalizeExternalUrl } from '../utils/cms';
 
-const inputClass = 'w-full px-3 py-2.5 bg-dark-900 border border-white/10 rounded-lg text-white text-sm font-body placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-accent-500';
+const inputClass = 'w-full min-w-0 px-3 py-2.5 bg-dark-900 border border-white/10 rounded-lg text-white text-sm font-body placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-accent-500';
 const labelClass = 'block text-xs font-mono text-slate-400 mb-1.5';
 
 const notifyCmsUpdated = () => {
@@ -239,10 +239,10 @@ function SingletonPage({ section, config }) {
   const persistUploadedAsset = async (field, url) => {
     const next = { ...form, [field]: url };
     setForm(next);
-      const { data } = await api.put(`/cms/${section}`, next);
-      setForm(data.item || next);
-      await load();
-      notifyCmsUpdated();
+    const { data } = await api.put(`/cms/${section}`, next);
+    setForm(data.item || next);
+    await load();
+    notifyCmsUpdated();
   };
 
   const save = async (e) => {
@@ -364,7 +364,7 @@ function ListPage({ section, config }) {
   return (
     <Panel title={config.title}>
       <form onSubmit={save} className="glass rounded-xl p-4 border border-white/5 mb-6 space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <h3 className="text-white font-display font-semibold">{editing ? 'Edit Item' : 'New Item'}</h3>
           {editing && <button type="button" onClick={() => { setEditing(null); setForm(empty); }} className="text-slate-400 text-sm">Cancel</button>}
         </div>
@@ -382,12 +382,12 @@ function ListPage({ section, config }) {
 
       <div className="space-y-3">
         {items.map(item => (
-          <div key={item._id} className="glass rounded-xl p-4 border border-white/5 flex items-center justify-between gap-4">
+          <div key={item._id} className="glass rounded-xl p-4 border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="min-w-0">
               <h3 className="text-white font-body font-medium truncate">{item.title || item.name || item.institution || item.platform}</h3>
               <p className="text-slate-500 text-xs font-mono truncate">{item.company || item.category || item.issuer || item.url || item.degree}</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button onClick={() => { const next = normalizeForm(item); setEditing(next); setForm(next); }} className="btn-outline py-2 text-xs">Edit</button>
               <button onClick={() => remove(item._id)} className="p-2 text-slate-400 hover:text-red-400"><Trash2 size={16} /></button>
             </div>
@@ -400,9 +400,9 @@ function ListPage({ section, config }) {
 
 function Panel({ title, children }) {
   return (
-    <div>
+    <div className="min-w-0">
       <h2 className="text-xl font-display font-semibold text-white mb-6">{title}</h2>
-      <div className="glass rounded-xl p-6 border border-white/5">{children}</div>
+      <div className="glass rounded-xl p-4 sm:p-6 border border-white/5 overflow-x-hidden">{children}</div>
     </div>
   );
 }
@@ -473,12 +473,13 @@ function MessagesPage() {
 }
 
 export default function AdminDashboard() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => window.innerWidth < 768);
+  const sidebarWidth = collapsed ? 64 : 256;
   return (
-    <div className="min-h-screen bg-dark-950">
+    <div className="min-h-screen bg-dark-950 overflow-x-hidden">
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <main className="transition-all duration-300 min-h-screen p-6" style={{ marginLeft: collapsed ? 64 : 256 }}>
-        <div className="max-w-6xl mx-auto pt-4">
+      <main className="transition-all duration-300 min-h-screen p-4 sm:p-6 overflow-x-hidden" style={{ marginLeft: sidebarWidth, width: `calc(100% - ${sidebarWidth}px)` }}>
+        <div className="w-full max-w-6xl mx-auto pt-4">
           <Routes>
             <Route path="/" element={<DashboardHome />} />
             <Route path="/projects" element={<ProjectsPage />} />

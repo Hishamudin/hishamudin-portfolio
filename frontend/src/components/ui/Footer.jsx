@@ -16,15 +16,15 @@ export default function Footer({ cms }) {
     <footer className="bg-dark-950 border-t border-white/5 relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="grid md:grid-cols-3 gap-10 mb-10">
           <div>
-            <div className="font-mono text-accent-400 font-semibold text-xl mb-3">
+            <div className="font-mono text-accent-400 font-semibold text-xl mb-3 break-all">
               <span className="text-slate-500">&lt;</span>
               {(ownerName.split(' ')[0] || 'portfolio').toLowerCase()}
               <span className="text-slate-500">/&gt;</span>
             </div>
-            <p className="text-slate-500 text-sm font-body leading-relaxed max-w-xs">
+            <p className="text-slate-500 text-sm font-body leading-relaxed max-w-xs break-words">
               {cms?.hero?.summary}
             </p>
           </div>
@@ -62,16 +62,16 @@ export default function Footer({ cms }) {
                 </motion.a>
               ))}
             </div>
-            <p className="text-slate-500 text-sm font-body">{email}</p>
+            <p className="text-slate-500 text-sm font-body break-all">{email}</p>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-white/5 gap-4">
-          <p className="text-slate-600 text-sm font-body flex items-center gap-1.5">
+          <p className="text-slate-600 text-sm font-body flex flex-wrap items-center justify-center sm:justify-start gap-1.5 text-center sm:text-left">
             Built with <Heart size={12} className="text-red-500/70" fill="currentColor" /> by {ownerName} · {new Date().getFullYear()}
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <span className="text-slate-700 text-xs font-mono">React · Node.js · MongoDB</span>
             <motion.button
               onClick={scrollTop}

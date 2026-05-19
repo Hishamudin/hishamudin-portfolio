@@ -30,7 +30,7 @@ export default function About({ cms }) {
   const initials = (hero.name || '').split(' ').map(part => part[0]).join('').slice(0, 2);
 
   return (
-    <section id="about" className="py-24 relative bg-dark-900">
+    <section id="about" className="py-24 relative bg-dark-900 overflow-x-hidden">
       <div className="absolute inset-0 grid-bg opacity-20" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -42,7 +42,7 @@ export default function About({ cms }) {
             transition={{ duration: 0.7 }}
             className="relative"
           >
-            <div className="relative w-72 h-72 sm:w-96 sm:h-96 mx-auto lg:mx-0">
+            <div className="relative w-64 h-64 min-[360px]:w-72 min-[360px]:h-72 sm:w-96 sm:h-96 mx-auto lg:mx-0">
               <div className="absolute inset-0 rounded-full border border-accent-500/20 animate-spin-slow" />
               <div className="absolute inset-4 rounded-full border border-primary-400/15" />
               <div className="absolute inset-8 rounded-full glass overflow-hidden flex items-center justify-center bg-gradient-to-br from-accent-500/20 to-primary-500/20">
@@ -57,10 +57,10 @@ export default function About({ cms }) {
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
-                  className="absolute -top-2 -right-4 glass px-3 py-2 rounded-xl text-sm border border-green-500/30"
+                  className="absolute -top-2 right-0 sm:-right-4 max-w-[11rem] sm:max-w-none glass px-3 py-2 rounded-xl text-sm border border-green-500/30"
                 >
                   <span className="text-green-400">● </span>
-                  <span className="text-slate-300 font-mono text-xs">{hero.availability}</span>
+                  <span className="text-slate-300 font-mono text-xs break-words">{hero.availability}</span>
                 </motion.div>
               )}
 
@@ -68,9 +68,9 @@ export default function About({ cms }) {
                 <motion.div
                   animate={{ y: [0, 10, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
-                  className="absolute -bottom-2 -left-4 glass px-3 py-2 rounded-xl text-sm border border-accent-500/30"
+                  className="absolute -bottom-2 left-0 sm:-left-4 max-w-[11rem] sm:max-w-none glass px-3 py-2 rounded-xl text-sm border border-accent-500/30"
                 >
-                  <span className="text-accent-400 font-mono text-xs">{hero.location}</span>
+                  <span className="text-accent-400 font-mono text-xs break-words">{hero.location}</span>
                 </motion.div>
               )}
             </div>
@@ -87,7 +87,7 @@ export default function About({ cms }) {
             </div>
 
             <h2 className="section-heading text-white mb-6">
-              {about.heading || 'About'} <span className="text-gradient">Profile</span>
+              <span className="break-words">{about.heading || 'About'}</span> <span className="text-gradient">Profile</span>
             </h2>
 
             <div className="space-y-4 text-slate-400 font-body leading-relaxed">
@@ -113,13 +113,13 @@ export default function About({ cms }) {
 
             <div className="mt-8 flex flex-wrap gap-3">
               {github && (
-                <a href={github} target="_blank" rel="noopener noreferrer" className="btn-primary flex items-center gap-2 text-sm">
+                <a href={github} target="_blank" rel="noopener noreferrer" className="btn-primary flex items-center justify-center gap-2 text-sm">
                   <ExternalLink size={14} />
                   GitHub Profile
                 </a>
               )}
               {contact.email && (
-                <a href={`mailto:${contact.email}`} className="btn-outline text-sm">
+                <a href={`mailto:${contact.email}`} className="btn-outline text-sm text-center">
                   Say Hello
                 </a>
               )}

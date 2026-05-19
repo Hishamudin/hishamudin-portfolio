@@ -35,8 +35,8 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-dark-950 grid-bg flex items-center justify-center p-4 relative overflow-hidden">
       {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-accent-500/10 blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-primary-500/8 blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-accent-500/10 blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-primary-500/8 blur-3xl" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -54,7 +54,7 @@ export default function AdminLogin() {
         </div>
 
         {/* Form */}
-        <div className="glass rounded-2xl p-8 gradient-border">
+        <div className="glass rounded-2xl p-5 sm:p-8 gradient-border">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-xs font-mono text-slate-400 mb-2">Email address</label>

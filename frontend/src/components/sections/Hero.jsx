@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import { ArrowDown, Github, Linkedin, Mail, Sparkles, Download } from 'lucide-react';
-import { cacheBustAsset, socialUrl } from '../../utils/cms';
+import { cacheBustAsset, resolveResumeUrl, socialUrl } from '../../utils/cms';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -23,7 +23,7 @@ export default function Hero({ cms }) {
   const canvasRef = useRef(null);
   const hero = cms?.hero || {};
   const contact = cms?.contactInfo || {};
-  const resumeUrl = cms?.resume?.fileUrl || hero.resumeUrl || cms?.settings?.resumeUrl || '#';
+  const resumeUrl = resolveResumeUrl(cms?.resume?.fileUrl || hero.resumeUrl || cms?.settings?.resumeUrl);
   const nameParts = (hero.name || '').split(' ').filter(Boolean);
   const firstName = nameParts[0] || '';
   const restName = nameParts.slice(1).join(' ');
@@ -100,15 +100,15 @@ export default function Hero({ cms }) {
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-60" />
 
       {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent-500/10 blur-3xl animate-float" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary-500/8 blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent-600/5 blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-56 h-56 sm:w-96 sm:h-96 rounded-full bg-accent-500/10 blur-3xl animate-float" />
+      <div className="absolute bottom-1/4 right-1/4 w-52 h-52 sm:w-80 sm:h-80 rounded-full bg-primary-500/8 blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-[600px] sm:h-[600px] rounded-full bg-accent-600/5 blur-3xl" />
 
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-bg opacity-30" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
         {profileImage && (
           <motion.div {...fadeUp(0.1)} className="mx-auto mb-6 h-32 w-32 sm:h-40 sm:w-40 rounded-full p-1 bg-gradient-to-br from-accent-400 via-primary-400 to-neon-cyan shadow-glow">
             <img
@@ -121,35 +121,35 @@ export default function Hero({ cms }) {
         )}
 
         {/* Badge */}
-        <motion.div {...fadeUp(0.2)} className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-accent-500/30 text-sm text-accent-300 mb-8">
+        <motion.div {...fadeUp(0.2)} className="inline-flex max-w-full items-center gap-2 px-4 py-2 rounded-full glass border border-accent-500/30 text-sm text-accent-300 mb-8">
           <Sparkles size={14} className="text-accent-400" />
-          <span className="font-mono">{hero.availability}</span>
+          <span className="font-mono break-words">{hero.availability}</span>
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
         </motion.div>
 
         {/* Name */}
-        <motion.h1 {...fadeUp(0.35)} className="text-5xl sm:text-7xl md:text-8xl font-display font-bold tracking-tight leading-none mb-4">
+        <motion.h1 {...fadeUp(0.35)} className="text-4xl min-[360px]:text-5xl sm:text-7xl md:text-8xl font-display font-bold tracking-tight leading-none mb-4 break-words">
           <span className="block text-white">{firstName}</span>
           <span className="block text-gradient">{restName}</span>
         </motion.h1>
 
         {/* Typing animation */}
-        <motion.div {...fadeUp(0.5)} className="text-xl sm:text-2xl text-slate-300 font-mono mb-6 h-8">
+        <motion.div {...fadeUp(0.5)} className="text-base sm:text-2xl text-slate-300 font-mono mb-6 min-h-8">
           {typingSequence.length > 0 && (
             <TypeAnimation sequence={typingSequence} wrapper="span" speed={50} repeat={Infinity} cursor />
           )}
         </motion.div>
 
         {/* Tagline */}
-        <motion.p {...fadeUp(0.65)} className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+        <motion.p {...fadeUp(0.65)} className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-10 break-words">
           {hero.summary}
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div {...fadeUp(0.8)} className="flex flex-wrap items-center justify-center gap-4 mb-16">
+        <motion.div {...fadeUp(0.8)} className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-16">
           <motion.button
             onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
-            className="btn-primary flex items-center gap-2 text-base px-8 py-4"
+            className="btn-primary flex items-center justify-center gap-2 text-base px-8 py-4"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
           >
@@ -158,8 +158,9 @@ export default function Hero({ cms }) {
           </motion.button>
           <motion.a
             href={resumeUrl}
-            download
-            className="btn-outline flex items-center gap-2 text-base px-8 py-4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline flex items-center justify-center gap-2 text-base px-8 py-4"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
           >
@@ -169,7 +170,7 @@ export default function Hero({ cms }) {
         </motion.div>
 
         {/* Social links */}
-        <motion.div {...fadeUp(0.95)} className="flex items-center justify-center gap-4">
+        <motion.div {...fadeUp(0.95)} className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           {socials.map(({ href, icon: Icon, label }) => (
             <motion.a
               key={label}
@@ -184,11 +185,11 @@ export default function Hero({ cms }) {
             </motion.a>
           ))}
 
-          <div className="h-px w-16 bg-gradient-to-r from-transparent via-slate-600 to-transparent" />
+          <div className="hidden sm:block h-px w-16 bg-gradient-to-r from-transparent via-slate-600 to-transparent" />
 
           <a
             href={`mailto:${contact.email || cms?.settings?.contactEmail || ''}`}
-            className="text-sm font-mono text-slate-500 hover:text-accent-400 transition-colors"
+            className="max-w-full break-all text-sm font-mono text-slate-500 hover:text-accent-400 transition-colors"
           >
             {contact.email || cms?.settings?.contactEmail}
           </a>

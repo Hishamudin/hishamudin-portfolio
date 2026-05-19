@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
-import { NAV_LINKS } from '../../utils/cms';
+import { NAV_LINKS, resolveResumeUrl } from '../../utils/cms';
 
 export default function Navbar({ cms }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const ownerName = cms?.settings?.ownerName || cms?.hero?.name || '';
-  const resumeUrl = cms?.resume?.fileUrl || cms?.settings?.resumeUrl || cms?.hero?.resumeUrl || '#';
+  const resumeUrl = resolveResumeUrl(cms?.resume?.fileUrl || cms?.settings?.resumeUrl || cms?.hero?.resumeUrl);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -43,16 +43,16 @@ export default function Navbar({ cms }) {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 max-w-full overflow-x-hidden transition-all duration-300 ${
           scrolled ? 'glass-dark shadow-lg shadow-black/20' : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 gap-3">
             {/* Logo */}
             <motion.a
               href="/"
-              className="font-mono text-accent-400 font-semibold text-lg tracking-tight"
+              className="min-w-0 truncate font-mono text-accent-400 font-semibold text-lg tracking-tight"
               whileHover={{ scale: 1.05 }}
             >
               <span className="text-slate-400">&lt;</span>
@@ -85,11 +85,7 @@ export default function Navbar({ cms }) {
 
             {/* Right side actions */}
             <div className="flex items-center gap-2">
-              <a
-                href={resumeUrl}
-                download
-                className="hidden md:flex items-center gap-2 btn-outline text-sm py-2"
-              >
+              <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center gap-2 btn-outline text-sm py-2">
                 <Download size={14} />
                 Resume
               </a>
@@ -114,7 +110,7 @@ export default function Navbar({ cms }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 inset-x-0 z-40 glass-dark border-b border-white/10 p-4 md:hidden"
+            className="fixed top-16 inset-x-0 z-40 max-w-full overflow-x-hidden glass-dark border-b border-white/10 p-4 md:hidden"
           >
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map(({ label, href }) => (
@@ -128,7 +124,8 @@ export default function Navbar({ cms }) {
               ))}
               <a
                 href={resumeUrl}
-                download
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 mt-2 btn-primary text-sm justify-center"
               >
                 <Download size={14} />

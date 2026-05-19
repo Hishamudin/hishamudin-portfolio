@@ -19,7 +19,8 @@ const pdfStorage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => ({
     folder: 'portfolio/resume',
-    resource_type: 'raw',
+    resource_type: 'auto',
+    allowed_formats: ['pdf'],
     format: 'pdf',
   }),
 });
@@ -40,7 +41,7 @@ router.post('/image', protect, adminOnly, uploadImage.single('image'), (req, res
   }
 
   res.json({
-    url: req.file.path,
+    url: req.file.secure_url || req.file.path,
     filename: req.file.filename,
   });
 });
@@ -52,7 +53,7 @@ router.post('/images', protect, adminOnly, uploadImage.array('images', 10), (req
 
   res.json({
     urls: req.files.map((file) => ({
-      url: file.path,
+      url: file.secure_url || file.path,
       filename: file.filename,
     })),
   });
@@ -64,7 +65,7 @@ router.post('/resume', protect, adminOnly, uploadPdf.single('resume'), (req, res
   }
 
   res.json({
-    url: req.file.path,
+    url: req.file.secure_url || req.file.path,
     filename: req.file.filename,
   });
 });

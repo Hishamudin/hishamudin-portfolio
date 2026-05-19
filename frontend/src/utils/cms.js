@@ -31,10 +31,17 @@ export const backendOrigin = () => {
 
 export const resolveAssetUrl = (url) => {
   if (!url) return '';
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)/i.test(url) && window.location.hostname !== 'localhost') return '';
   if (/^https?:\/\//i.test(url) || url.startsWith('data:') || url.startsWith('blob:')) return url;
   if (url.startsWith('/uploads/')) return `${backendOrigin()}${url}`;
   if (url.startsWith('uploads/')) return `${backendOrigin()}/${url}`;
   return url;
+};
+
+export const resolveResumeUrl = (url) => {
+  const resolved = resolveAssetUrl(url);
+  if (!resolved) return '#';
+  return resolved;
 };
 
 export const cacheBustAsset = (url, version) => {

@@ -26,7 +26,7 @@ function TimelineItem({ item, index }) {
       <div className="flex-1 pb-10 md:max-w-md">
         <div className="glass rounded-2xl p-6 gradient-border hover:shadow-glow-sm transition-all duration-300">
           <div className="flex items-start justify-between flex-wrap gap-2 mb-1">
-            <h3 className="font-display font-semibold text-white text-lg">{item.title}</h3>
+            <h3 className="font-display font-semibold text-white text-lg break-words">{item.title}</h3>
             <span className="text-accent-400 font-mono text-xs px-2 py-1 rounded-md bg-accent-500/10 border border-accent-500/20">
               {item.period}
             </span>
@@ -34,7 +34,7 @@ function TimelineItem({ item, index }) {
 
           <p className="text-slate-400 font-medium text-sm mb-3 flex items-center gap-1.5">
             <MapPin size={12} className="text-accent-500" />
-            {item.company}
+            <span className="break-words">{item.company}</span>
           </p>
 
           {item.role && <p className="text-slate-300 text-sm font-body mb-2">{item.role}</p>}
@@ -45,7 +45,7 @@ function TimelineItem({ item, index }) {
               {item.bullets.map(bullet => (
                 <li key={bullet} className="text-slate-400 text-sm font-body flex gap-2">
                   <span className="text-accent-400 mt-1">•</span>
-                  <span>{bullet}</span>
+                  <span className="break-words">{bullet}</span>
                 </li>
               ))}
             </ul>
@@ -79,9 +79,9 @@ export default function Experience({ cms }) {
   return (
     <section id="experience" className="py-24 bg-dark-950 relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-15" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-primary-500/5 blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-56 h-56 sm:w-96 sm:h-96 rounded-full bg-primary-500/5 blur-3xl" />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
