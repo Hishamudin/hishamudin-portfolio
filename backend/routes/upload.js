@@ -20,15 +20,16 @@ const imageStorage = new CloudinaryStorage({
 });
 
 /* ===========================
-   PDF / RESUME STORAGE
+   PDF STORAGE
 =========================== */
 
 const pdfStorage = new CloudinaryStorage({
   cloudinary,
   params: async () => ({
     folder: 'portfolio/resume',
-    resource_type: 'raw',
-    public_id: `resume-${Date.now()}`
+    resource_type: 'auto',
+    allowed_formats: ['pdf'],
+    format: 'pdf'
   })
 });
 
@@ -58,7 +59,7 @@ const uploadPdf = multer({
 });
 
 /* ===========================
-   IMAGE UPLOAD
+   SINGLE IMAGE
 =========================== */
 
 router.post(
@@ -106,7 +107,7 @@ router.post(
 );
 
 /* ===========================
-   RESUME PDF UPLOAD
+   RESUME PDF
 =========================== */
 
 router.post(
@@ -115,6 +116,8 @@ router.post(
   adminOnly,
   uploadPdf.single('resume'),
   (req, res) => {
+    console.log('Resume Upload:', req.file);
+
     if (!req.file) {
       return res.status(400).json({
         error: 'No file uploaded'
